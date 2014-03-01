@@ -34,11 +34,16 @@ end
 
 group :development, :test do
   gem 'rspec-rails'
+  gem 'guard-rspec'
+  gem 'spork-rails'
+  gem 'guard-spork'
+  gem 'childprocess'
 end
 
 group :test do
   gem 'capybara'
   gem 'selenium-webdriver'
+  gem 'libnotify'
 end
 
 # Use ActiveModel has_secure_password
