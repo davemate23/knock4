@@ -59,4 +59,11 @@ end
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
+# Authentication gems
 gem 'devise'
+gem 'omniauth-facebook'
+gem 'omniauth-twitter'
+gem "omniauth-google-oauth2"
+
+# Geocoding
+gem 'geocoder'

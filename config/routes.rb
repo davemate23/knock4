@@ -1,5 +1,6 @@
 Knock4::Application.routes.draw do
 
+  devise_for :knockers, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }
   get "knockers/new"
 
   root 'static_pages#home'
