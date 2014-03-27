@@ -1,0 +1,69 @@
+<% provide(:title, 'Sign Up') %>
+
+<h2>Sign Up</h2>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3"> 
+    <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+      <%= devise_error_messages! %>
+
+      <div class="col-md-6"><%= f.label :first_name %><br />
+      <%= f.text_field :first_name %></div>
+
+      <div class="col-md-6"><%= f.label :last_name %><br />
+      <%= f.text_field :last_name %></div>
+
+      <div class="col-md-6"><%= f.label :username %><br />
+      <%= f.text_field :username %></div>
+
+      <div class="col-md-6"><%= f.label :gender %><br />
+      <%= f.text_field :gender %></div>
+
+      <div class="col-md-6"><%= f.label "Date of birth" %><br />
+      <%= f.date_field :dob %></div>
+
+      <div class="col-md-6"><%= f.label :postcode %><br />
+      <%= f.text_field :postcode %></div>
+
+      <div class="col-md-12"><%= f.label :email %><br />
+      <%= f.email_field :email, :autofocus => true %></div>
+
+      <div class="col-md-6"><%= f.label :password %><br />
+      <%= f.password_field :password %></div>
+
+      <div class="col-md-6"><%= f.label :password_confirmation %><br />
+      <%= f.password_field :password_confirmation %></div>
+
+      <div><%= f.submit "Create my account!" %></div>
+    <% end %>
+  </div>
+</div>
+
+<% if knocker_signed_in? %>
+  Signed in as <%= current_knocker.name %>. Not you?
+  <%= link_to "Sign out", destroy_knocker_session_path,:method => :delete %>
+<% else %>
+  <%= link_to "Sign up", new_knocker_registration_path %> or
+  <%= link_to "Sign in", new_knocker_session_path %>
+  <%= link_to "Sign in with Facebook", knocker_omniauth_authorize_path(:facebook) %>
+<% end %>
+
+<% if knocker_signed_in? %>
+  Signed in as <%= current_knocker.name %>. Not you?
+  <%= link_to "Sign out", destroy_knocker_session_path,:method => :delete %>
+<% else %>
+  <%= link_to "Sign up", new_knocker_registration_path %> or
+  <%= link_to "Sign in", new_knocker_session_path %>
+  <%= link_to "Sign in with Twitter", knocker_omniauth_authorize_path(:twitter) %>
+<% end %>
+
+<% if knocker_signed_in? %>
+  Signed in as <%= current_knocker.name %>. Not you?
+  <%= link_to "Sign out", destroy_knocker_session_path,:method => :delete %>
+<% else %>
+  <%= link_to "Sign up", new_knocker_registration_path %> or
+  <%= link_to "Sign in", new_knocker_session_path %>
+  <%= link_to "Sign in with Google", knocker_omniauth_authorize_path(:google_oauth2) %>
+<% end %>
+
+<%= render "devise/shared/links" %>

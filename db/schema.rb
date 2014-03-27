@@ -24,9 +24,10 @@ ActiveRecord::Schema.define(version: 20140301150358) do
     t.string   "postcode"
     t.float    "latitude"
     t.float    "longitude"
-    t.datetime "dob",                                 null: false
+    t.date     "dob",                                 null: false
     t.text     "about"
     t.string   "gender",                              null: false
+    t.string   "nationality"
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
     t.string   "provider"
@@ -43,9 +44,16 @@ ActiveRecord::Schema.define(version: 20140301150358) do
     t.string   "unlock_token"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
   end
 
+  add_index "knockers", ["dob"], name: "index_knockers_on_dob", using: :btree
   add_index "knockers", ["email"], name: "index_knockers_on_email", unique: true, using: :btree
+  add_index "knockers", ["latitude"], name: "index_knockers_on_latitude", using: :btree
+  add_index "knockers", ["longitude"], name: "index_knockers_on_longitude", using: :btree
   add_index "knockers", ["reset_password_token"], name: "index_knockers_on_reset_password_token", unique: true, using: :btree
   add_index "knockers", ["username"], name: "index_knockers_on_username", unique: true, using: :btree
 

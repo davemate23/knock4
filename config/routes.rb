@@ -1,10 +1,12 @@
 Knock4::Application.routes.draw do
 
   devise_for :knockers, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }
-  get "knockers/new"
-
+  
   root 'static_pages#home'
-  match '/signup', to: 'knockers#new', via: 'get'
+  devise_scope :knocker do
+    get "/signup", to: 'devise/registrations#new'
+  end
+  get '/knockers/:id' => 'knockers#show', as: 'knocker'
   match '/help', to: 'static_pages#help', via: 'get'
   match '/about', to: 'static_pages#about', via: 'get'
   match '/contact', to: 'static_pages#contact', via: 'get'

@@ -45,6 +45,7 @@ group :test do
   gem 'capybara'
   gem 'selenium-webdriver'
   gem 'libnotify'
+  gem 'factory_girl_rails', '4.2.1'
 end
 
 # Use ActiveModel has_secure_password
@@ -64,6 +65,9 @@ gem 'devise'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 gem "omniauth-google-oauth2"
+
+# File Attachments
+gem "paperclip", "~> 4.1"
 
 # Geocoding
 gem 'geocoder'

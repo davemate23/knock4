@@ -6,22 +6,23 @@ class Knocker < ActiveRecord::Base
 
     before_save { self.username = username.downcase }
 
-    validates :first_name, 		presence: true, 
-    							length: { maximum: 25 }
-    validates :last_name, 		presence: true, 
-       							length: { maximum: 25 }
+    validates :first_name,    presence: true, 
+                              length: { maximum: 25 }
+    validates :last_name,     presence: true, 
+                              length: { maximum: 25 }
     VALID_USERNAME_REGEX = /\A[\w+\-._]+\z/i
-    validates :username, 		presence: true, 
-      							length: { maximum: 20 },
-       							format: { with: VALID_USERNAME_REGEX },
-       							uniqueness: { case_sensitive: false }
-    validates :email, 			presence: true
-    validates :password, 		presence: true
-    validates :dob, 			presence: true
-    validates :gender, 			presence: true
-    validates :postcode, 		presence: true
+    validates :username,      presence: true, 
+                              length: { maximum: 20 },
+                              format: { with: VALID_USERNAME_REGEX },
+                              uniqueness: { case_sensitive: false }
+    validates :email, 			  presence: true
+    validates :password, 		  presence: true
+    validates :dob, 			    presence: true
+    validates :gender, 			  presence: true
+    validates :postcode, 		  presence: true
 
-
+    has_attached_file :avatar, :styles => { :medium => "300x300", :thumb => "100x100" }, :default_url => "/images/:style/missing.jpg"
+    validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
 
   	def self.find_for_facebook_oauth(auth)
 	  	where(auth.slice(:provider, :uid)).first_or_create do |knocker|
@@ -50,11 +51,11 @@ class Knocker < ActiveRecord::Base
                         password:Devise.friendly_token[0,20],
                         username:auth.info.nickname,
                         about:auth.info.description                    )
-  			end
-   		end
-  	end
+  		end
+   	end
+  end
 
-  	def self.find_for_google_oauth2(access_token, signed_in_resource=nil)
+  def self.find_for_google_oauth2(access_token, signed_in_resource=nil)
 	    data = access_token.info
 	    knocker = Knocker.where(:provider => access_token.provider, :uid => access_token.uid ).first
 	    if knocker
