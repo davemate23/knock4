@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 20140301150358) do
     t.string   "postcode"
     t.float    "latitude"
     t.float    "longitude"
-    t.date     "dob",                                 null: false
+    t.date     "birthday",                            null: false
     t.text     "about"
     t.string   "gender",                              null: false
     t.string   "nationality"
@@ -50,7 +50,7 @@ ActiveRecord::Schema.define(version: 20140301150358) do
     t.datetime "avatar_updated_at"
   end
 
-  add_index "knockers", ["dob"], name: "index_knockers_on_dob", using: :btree
+  add_index "knockers", ["birthday"], name: "index_knockers_on_birthday", using: :btree
   add_index "knockers", ["email"], name: "index_knockers_on_email", unique: true, using: :btree
   add_index "knockers", ["latitude"], name: "index_knockers_on_latitude", using: :btree
   add_index "knockers", ["longitude"], name: "index_knockers_on_longitude", using: :btree

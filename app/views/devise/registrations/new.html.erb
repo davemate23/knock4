@@ -16,11 +16,13 @@
       <div class="col-md-6"><%= f.label :username %><br />
       <%= f.text_field :username %></div>
 
-      <div class="col-md-6"><%= f.label :gender %><br />
-      <%= f.text_field :gender %></div>
+      <div class="col-md-6">
+        <%= f.label(:gender_male, "Male") %><%= f.radio_button(:gender, "Male") %><br />
+        <%= f.label(:gender_female, "Female") %><%= f.radio_button(:gender, "Female")  %>
+      </div>
 
-      <div class="col-md-6"><%= f.label "Date of birth" %><br />
-      <%= f.date_field :dob %></div>
+      <div class="col-md-6"><%= f.label :birthday %><br />
+      <%= f.date_field :birthday %></div>
 
       <div class="col-md-6"><%= f.label :postcode %><br />
       <%= f.text_field :postcode %></div>
@@ -34,7 +36,7 @@
       <div class="col-md-6"><%= f.label :password_confirmation %><br />
       <%= f.password_field :password_confirmation %></div>
 
-      <div><%= f.submit "Create my account!" %></div>
+      <div><%= f.submit "Create my account!", class: "btn btn-large btn-primary" %></div>
     <% end %>
   </div>
 </div>

@@ -46,6 +46,8 @@ group :test do
   gem 'selenium-webdriver'
   gem 'libnotify'
   gem 'factory_girl_rails', '4.2.1'
+  gem 'cucumber-rails', '1.4.0', :require => false
+  gem 'database_cleaner', github: 'bmabey/database_cleaner'
 end
 
 # Use ActiveModel has_secure_password
@@ -71,3 +73,10 @@ gem "paperclip", "~> 4.1"
 
 # Geocoding
 gem 'geocoder'
+
+# More Knockers
+gem 'faker'
+
+# Pagination
+gem 'will_paginate'
+gem 'bootstrap-will_paginate'

@@ -3,6 +3,30 @@
 <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
   <%= devise_error_messages! %>
 
+  <div><%= image_tag @knocker.avatar.url(:thumb) %></div>
+  <div><%= f.label :avatar %><br />
+  <%= f.file_field :avatar %></div>
+
+  <div><%= f.label :first_name %><br />
+  <%= f.text_field :first_name %></div>
+
+  <div><%= f.label :last_name %><br />
+  <%= f.text_field :last_name %></div>
+
+  <div><%= f.label :username %><br />
+  <%= f.text_field :username %></div>
+
+  <div class="col-md-6">
+    <%= f.label(:gender_male, "Male") %><%= f.radio_button(:gender, "Male") %><br />
+    <%= f.label(:gender_female, "Female") %><%= f.radio_button(:gender, "Female")  %>
+  </div>
+
+  <div><%= f.label :birthday %><br />
+  <%= f.date_field :birthday %></div>
+
+  <div><%= f.label :postcode %><br />
+  <%= f.text_field :postcode %></div>
+
   <div><%= f.label :email %><br />
   <%= f.email_field :email, :autofocus => true %></div>
 

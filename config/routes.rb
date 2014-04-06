@@ -1,12 +1,19 @@
 Knock4::Application.routes.draw do
 
-  devise_for :knockers, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }
+  devise_for :knockers, :controllers => { :omniauth_callbacks => "omniauth_callbacks", :registrations => "registrations" }
+  resources :knockers, only: [:index]
   
   root 'static_pages#home'
   devise_scope :knocker do
     get "/signup", to: 'devise/registrations#new'
+    get "/signin", to: 'devise/sessions#new'
+    get "/login", to: 'devise/sessions#new'
+    delete "/signout", to: 'devise/sessions#destroy'
+    delete "/logout", to: 'devise/sessions#destroy'
   end
+
   get '/knockers/:id' => 'knockers#show', as: 'knocker'
+  get '/knockers' => 'knockers#index', as: 'knocker_index'
   match '/help', to: 'static_pages#help', via: 'get'
   match '/about', to: 'static_pages#about', via: 'get'
   match '/contact', to: 'static_pages#contact', via: 'get'

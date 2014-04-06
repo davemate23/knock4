@@ -16,13 +16,22 @@ class Knocker < ActiveRecord::Base
                               format: { with: VALID_USERNAME_REGEX },
                               uniqueness: { case_sensitive: false }
     validates :email, 			  presence: true
-    validates :password, 		  presence: true
-    validates :dob, 			    presence: true
+    validates :password,      presence: true
+    validates :birthday,      presence: true
     validates :gender, 			  presence: true
     validates :postcode, 		  presence: true
 
     has_attached_file :avatar, :styles => { :medium => "300x300", :thumb => "100x100" }, :default_url => "/images/:style/missing.jpg"
     validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
+
+    geocoded_by :postcode
+    after_validation :geocode
+
+    self.per_page = 20
+
+    def self.all_except(knocker)
+      where.not(id: knocker)
+    end
 
   	def self.find_for_facebook_oauth(auth)
 	  	where(auth.slice(:provider, :uid)).first_or_create do |knocker|
@@ -72,7 +81,7 @@ class Knocker < ActiveRecord::Base
 	          uid: access_token.uid ,
 	          password: Devise.friendly_token[0,20],
 	          gender: data["gender"],
-	          dob: data["birthday"]
+	          birthday: data["birthday"]
 	        )
 	      end
 	   	end

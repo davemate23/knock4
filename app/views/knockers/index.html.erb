@@ -1,0 +1,10 @@
+<% provide(:title, 'All knockers') %>
+<h1>All Knockers</h1>
+
+<%= will_paginate @knockers %>
+
+<ul class="knockers">
+	<%= render @knockers %>
+</ul>
+
+<%= will_paginate @knockers %>

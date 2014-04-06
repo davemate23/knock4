@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Knocker do
 
-	before { @knocker = Knocker.new(first_name: "Example", last_name: "Knocker", username: "knock4", email: "knocker@knock4.com", password: "password", dob: "19850423", gender: "male", postcode: "RG40 4QJ", latitude: "0.07", longitude: "8.99") }
+	before { @knocker = Knocker.new(first_name: "Example", last_name: "Knocker", username: "knock4", email: "knocker@knock4.com", password: "password", birthday: "1985-04-23", gender: "male", postcode: "RG40 4QJ", latitude: "0.07", longitude: "8.99") }
 
 	subject { @knocker }
 
@@ -12,7 +12,7 @@ describe Knocker do
 	it { should respond_to(:email) }
 	it { should respond_to(:password) }
 	it { should respond_to(:gender) }
-	it { should respond_to(:dob) }
+	it { should respond_to(:birthday) }
 	it { should respond_to(:postcode) }
 
 	it { should be_valid }
@@ -43,7 +43,7 @@ describe Knocker do
 	end
 
 	describe "when dob is not present" do
-		before { @knocker.dob = " " }
+		before { @knocker.birthday = " " }
 		it { should_not be_valid }
 	end
 
