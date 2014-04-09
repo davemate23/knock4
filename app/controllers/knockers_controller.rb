@@ -6,6 +6,7 @@ before_filter :authenticate_knocker!, only: [:index, :show,:edit, :update]
 
  def show
     @knocker = Knocker.find(params[:id])
+    @hypes = @knocker.hypes.paginate(page: params[:page])
  end
 
  def new

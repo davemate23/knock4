@@ -1,4 +1,5 @@
 <li>
 	<%= image_tag knocker.avatar.url(:thumb) %>
-	<%= link_to knocker.name, knocker %>
+	<%= link_to knocker.name, knocker %><br />
+	<%= knocker.distance_to(current_knocker) %>km
 </li>

@@ -1,6 +1,6 @@
 <% provide(:title, @knocker.name) %>
 <div class="row">
-  <aside class="span4">
+  <aside class="col-md-4">
     <section>
       <h1>
       	<%= image_tag @knocker.avatar.url(:medium) %>
@@ -8,4 +8,13 @@
       </h1>
     </section>
   </aside>
-<%= @knocker.email %>
+  <div class="col-md-8">
+  	<% if @knocker.hypes.any? %>
+  		<h3>Hypes (<%= @knocker.hypes.count %>)</h3>
+  		<ol class="hypes">
+  			<%= render @hypes %>
+  		</ol>
+  		<%= will_paginate @hypes %>
+  	<% end %>
+  </div>
+</div>

@@ -11,10 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140301150358) do
+ActiveRecord::Schema.define(version: 20140408191733) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "hypes", force: true do |t|
+    t.string   "content"
+    t.integer  "knocker_id"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "hypes", ["knocker_id", "created_at"], name: "index_hypes_on_knocker_id_and_created_at", using: :btree
+  add_index "hypes", ["latitude", "longitude"], name: "index_hypes_on_latitude_and_longitude", using: :btree
 
   create_table "knockers", force: true do |t|
     t.string   "first_name",                          null: false
@@ -22,6 +34,7 @@ ActiveRecord::Schema.define(version: 20140301150358) do
     t.string   "username",                            null: false
     t.string   "town"
     t.string   "postcode"
+    t.string   "country"
     t.float    "latitude"
     t.float    "longitude"
     t.date     "birthday",                            null: false
@@ -52,8 +65,7 @@ ActiveRecord::Schema.define(version: 20140301150358) do
 
   add_index "knockers", ["birthday"], name: "index_knockers_on_birthday", using: :btree
   add_index "knockers", ["email"], name: "index_knockers_on_email", unique: true, using: :btree
-  add_index "knockers", ["latitude"], name: "index_knockers_on_latitude", using: :btree
-  add_index "knockers", ["longitude"], name: "index_knockers_on_longitude", using: :btree
+  add_index "knockers", ["latitude", "longitude"], name: "index_knockers_on_latitude_and_longitude", using: :btree
   add_index "knockers", ["reset_password_token"], name: "index_knockers_on_reset_password_token", unique: true, using: :btree
   add_index "knockers", ["username"], name: "index_knockers_on_username", unique: true, using: :btree
 

@@ -15,6 +15,22 @@ describe "StaticPages" do
 
     it_should_behave_like "all static pages"
     it { should_not have_title('| Home') }
+
+    describe "for signed-in knockers" do
+      let(:knocker) { FactoryGirl.create(:knocker) }
+      before do
+        FactoryGirl.create(:hype, knocker: knocker, content: "Lorem Ipsum", latitude: 51.410457, longitude: -0.833861)
+        FactoryGirl.create(:hype, knocker: knocker, content: "Dolor Sit Amet", latitude: 51.410457, longitude: -0.833861)
+        sign_in knocker
+        visit root_path
+      end
+
+      it "should render the knocker's feed" do
+        knocker.feed.each do |item|
+          expect(page).to have_selector("li##{item.id}", text: item.content)
+        end
+      end
+    end
   end
 
   describe "Help Page" do

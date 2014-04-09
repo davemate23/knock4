@@ -2,7 +2,9 @@ require 'spec_helper'
 
 describe Knocker do
 
-	before { @knocker = Knocker.new(first_name: "Example", last_name: "Knocker", username: "knock4", email: "knocker@knock4.com", password: "password", birthday: "1985-04-23", gender: "male", postcode: "RG40 4QJ", latitude: "0.07", longitude: "8.99") }
+	before do
+		@knocker = Knocker.new(first_name: "Example", last_name: "Knocker", username: "knock4", email: "knocker@knock4.com", password: "password", birthday: "1985-04-23", gender: "male", postcode: "RG40 4QJ", latitude: "0.07", longitude: "8.99")
+	end
 
 	subject { @knocker }
 
@@ -14,6 +16,9 @@ describe Knocker do
 	it { should respond_to(:gender) }
 	it { should respond_to(:birthday) }
 	it { should respond_to(:postcode) }
+	it { should respond_to(:hypes) }
+  it { should respond_to(:feed) }
+
 
 	it { should be_valid }
 
@@ -102,4 +107,38 @@ describe Knocker do
 
     	it { should_not be_valid }
   	end
+
+  	describe "hype associations" do
+
+    before { @knocker.save }
+    let!(:older_hype) do
+      FactoryGirl.create(:hype, knocker: @knocker, created_at: 1.day.ago)
+    end
+    let!(:newer_hype) do
+      FactoryGirl.create(:hype, knocker: @knocker, created_at: 1.hour.ago)
+    end
+
+    it "should have the right hypes in the right order" do
+      expect(@knocker.hypes.to_a).to eq [newer_hype, older_hype]
+    end
+
+    it "should destroy associated hypes" do
+    	hypes = @knocker.hypes.to_a
+    	@knocker.destroy
+    	expect(hypes).not_to be_empty
+    	hypes.each do |hype|
+    		expect(Hype.where(id: hype.id)).to be_empty
+    	end
+    end
+
+    describe "status" do
+      let(:unfollowed_post) do
+        FactoryGirl.create(:hype, knocker: FactoryGirl.create(:knocker))
+      end
+
+      its(:feed) { should include(newer_hype) }
+      its(:feed) { should include(older_hype) }
+      its(:feed) { should_not include(unfollowed_post) }
+    end
+  end
 end

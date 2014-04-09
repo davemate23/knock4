@@ -1,0 +1,15 @@
+<li id="<%= feed_item.id %>">
+  <%= image_tag feed_item.knocker.avatar.url(:thumb) %>
+  <span class="knocker">
+    <%= link_to feed_item.knocker.name, feed_item.knocker %>
+  </span>
+  <span class="content"><%= feed_item.content %></span>
+  <span class="timestamp">
+    Posted <%= time_ago_in_words(feed_item.created_at) %> ago.
+  </span>
+ <% if current_knocker == (feed_item.knocker) %>
+ 	<%= link_to "delete", feed_item, 	method: :delete,
+ 										data: { confirm: "Are you sure you want to delete this Hype?" },
+ 										title: feed_item.content %>
+ <% end %>
+</li>

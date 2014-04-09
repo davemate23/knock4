@@ -6,12 +6,14 @@ class DeviseCreateKnockers < ActiveRecord::Migration
       t.string :username,           :null => false
       t.string :town
       t.string :postcode
+      t.string :country
       t.float :latitude                       
       t.float :longitude           
       t.date :birthday,             :null => false
       t.text :about
       t.string :gender,             :null => false
       t.string :nationality
+
 
     
       ## Database authenticatable
@@ -54,8 +56,7 @@ class DeviseCreateKnockers < ActiveRecord::Migration
     add_index :knockers, :email,                :unique => true
     add_index :knockers, :reset_password_token, :unique => true
     add_index :knockers, :username,              :unique => true
-    add_index :knockers, :latitude
-    add_index :knockers, :longitude
+    add_index :knockers, [:latitude, :longitude]
     add_index :knockers, :birthday
     # add_index :knockers, :confirmation_token,   :unique => true
     # add_index :knockers, :unlock_token,         :unique => true

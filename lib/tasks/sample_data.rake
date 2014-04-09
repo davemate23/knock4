@@ -28,5 +28,11 @@ namespace :db do
                    longitude: Faker::Address.longitude,
                    nationality: Faker::Address.country)
     end
+    
+    knockers = Knocker.all(limit: 6)
+    50.times do
+      content = Faker::Lorem.sentence(5)
+      knockers.each { |knocker| knocker.hypes.create!(content: content) }
+    end
   end
 end

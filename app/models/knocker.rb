@@ -21,13 +21,17 @@ class Knocker < ActiveRecord::Base
     validates :gender, 			  presence: true
     validates :postcode, 		  presence: true
 
-    has_attached_file :avatar, :styles => { :medium => "300x300", :thumb => "100x100" }, :default_url => "/images/:style/missing.jpg"
+    has_attached_file :avatar, :styles => { :medium => "300x300", :thumb => "100x100" }, :default_url => "/images/original/missing.jpg"
     validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
 
-    geocoded_by :postcode
+    geocoded_by :address
     after_validation :geocode
 
     self.per_page = 20
+
+    def address
+      [town, postcode, country].compact.join(', ')
+    end
 
     def self.all_except(knocker)
       where.not(id: knocker)
@@ -98,4 +102,13 @@ class Knocker < ActiveRecord::Base
  	def name
  		first_name + " " + last_name
  	end
+
+  def feed
+    #This is preliminary.
+    Hype.where("knocker_id = ?", id)
+  end
+
+  has_many :hypes, dependent: :destroy
+
+  accepts_nested_attributes_for :hypes
 end

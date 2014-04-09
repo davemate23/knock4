@@ -47,6 +47,16 @@ describe "Authentication" do
           it { should have_title('Sign in') }
         end
       end
+
+      describe "in the Hypes controller" do
+        before { post hypes_path }
+        specify { expect(response).to redirect_to(signin_path) }
+      end
+
+      describe "submitting to the destroy action" do
+        before { delete hype_path(FactoryGirl.create(:micropost)) }
+        specify { expect(response).to redirect_to(signin_path) }
+      end
     end
   end
 end

@@ -4,15 +4,16 @@ describe "Knocker Pages" do
 	subject { page }
   
   describe "index" do
+    include Devise::TestHelpers
     before do
       sign_in FactoryGirl.create(:knocker)
       FactoryGirl.create(:knocker, first_name: "Bob", last_name: "Hosken", postcode: "CM22 6EH", username: "bobbyboy", birthday: "05/20/1984", gender: "Male", password: "blogblog", password_confirmation: "blogblog", email: "bob@example.com")
       FactoryGirl.create(:knocker, first_name: "Ben", last_name: "Hope", postcode: "RG40 4QJ", username: "bennybay", birthday: "05/20/1984", gender: "Male", password: "blogblog", password_confirmation: "blogblog", email: "ben@example.com")
-      visit knocker_path
+      visit knockers_path
     end
 
-    it { should have_title('All knockers') }
-    it { should have_content('All knockers') }
+    it { should have_title('All Knockers') }
+    it { should have_content('All Knockers') }
 
     describe "pagination" do
 
@@ -42,10 +43,19 @@ describe "Knocker Pages" do
 
   describe "profile page" do
     let(:knocker) { FactoryGirl.create(:knocker) }
+    let!(:h1) { FactoryGirl.create(:hype, knocker: knocker, content: "Foo") }
+    let!(:h2) { FactoryGirl.create(:hype, knocker: knocker, content: "Bar") }
+
     before { visit knocker_path(knocker) }
 
     it { should have_content(knocker.name) }
     it { should have_title(knocker.name) }
+
+    describe "hypes" do
+      it { should have_content(h1.content) }
+      it { should have_content(h2.content) }
+      it { should have_content(knocker.hypes.count) }
+    end
   end
 
   describe "signup" do

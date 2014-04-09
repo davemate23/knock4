@@ -2,6 +2,7 @@ Knock4::Application.routes.draw do
 
   devise_for :knockers, :controllers => { :omniauth_callbacks => "omniauth_callbacks", :registrations => "registrations" }
   resources :knockers, only: [:index]
+  resources :hypes, only: [:create, :destroy]
   
   root 'static_pages#home'
   devise_scope :knocker do
