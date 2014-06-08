@@ -4,8 +4,8 @@ describe "HypePages" do
 
 	subject { page }
 
-	let(:knocker) { FactoryGirl.create(:knocker) }
-	before { sign_in knocker }
+	knocker = FactoryGirl.create(:knocker) 
+	login_as(knocker, :scope => :knocker)
 
 	describe "hype creation" do
 		before { visit root_path }
@@ -32,7 +32,7 @@ describe "HypePages" do
 	end
 
 	describe "hype destruction" do
-		before { FactoryGirl.create(:micropost, knocker: knocker) }
+		before { FactoryGirl.create(:hype, knocker: knocker) }
 
 		describe "as correct knocker" do
 			before { visit root_path }

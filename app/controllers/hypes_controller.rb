@@ -1,15 +1,19 @@
 class HypesController < ApplicationController
   before_action :authenticate_knocker!, only: [:create, :destroy]
-  before_action :correct_knocker, only: :destroy
+  before_filter :find_hypeable
 
-  def index
+  
+  def new
+    @hype = Hype.new
   end
 
   def create
-  	@hype = current_knocker.hypes.build(hype_params)
+  	@hype = @hypeable.hypes.build(hype_params)
+    @hype.author_id = current_knocker.id
+
   	if @hype.save
   		flash[:success] = "Hype created!"
-  		redirect_to root_url
+  		redirect_to :id => nil
   	else
       @feed_items = []
   		render 'static_pages/home'
@@ -17,7 +21,10 @@ class HypesController < ApplicationController
   end
 
   def destroy
-    @hype.destroy
+    @hype = Hype.find(params[:id])
+    if @hype.present?
+      @hype.destroy
+    end
     redirect_to root_url
   end
 
@@ -27,8 +34,12 @@ class HypesController < ApplicationController
   		params.require(:hype).permit(:content)
   	end
 
-    def correct_knocker
-      @hype = current_knocker,hypes.find_by(id: params[:id])
-      redirect_to root_url if @hype.nil?
+    def find_hypeable
+      params.each do |name, value|
+        if name =~ /(.+)_id$/
+          return $1.classify.constantize.find(value)
+        end
+      end
+      nil
     end
 end

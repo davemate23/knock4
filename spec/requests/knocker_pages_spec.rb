@@ -1,14 +1,16 @@
 require 'spec_helper'
+include Warden::Test::Helpers
+Warden.test_mode!
 
 describe "Knocker Pages" do
 	subject { page }
   
   describe "index" do
-    include Devise::TestHelpers
     before do
-      sign_in FactoryGirl.create(:knocker)
-      FactoryGirl.create(:knocker, first_name: "Bob", last_name: "Hosken", postcode: "CM22 6EH", username: "bobbyboy", birthday: "05/20/1984", gender: "Male", password: "blogblog", password_confirmation: "blogblog", email: "bob@example.com")
-      FactoryGirl.create(:knocker, first_name: "Ben", last_name: "Hope", postcode: "RG40 4QJ", username: "bennybay", birthday: "05/20/1984", gender: "Male", password: "blogblog", password_confirmation: "blogblog", email: "ben@example.com")
+      knocker = FactoryGirl.create(:knocker)
+      login_as(knocker, :scope => :knocker)
+      FactoryGirl.create(:knocker, first_name: "Bob", last_name: "Hosken", postcode: "CM22 6EH", identity: "bobbyboy", birthday: "05/20/1984", gender: "Male", password: "blogblog", password_confirmation: "blogblog", email: "bob@example.com")
+      FactoryGirl.create(:knocker, first_name: "Ben", last_name: "Hope", postcode: "RG40 4QJ", identity: "bennybay", birthday: "05/20/1984", gender: "Male", password: "blogblog", password_confirmation: "blogblog", email: "ben@example.com")
       visit knockers_path
     end
 
@@ -34,6 +36,7 @@ describe "Knocker Pages" do
         expect(page).to have_selector('li', text: knocker.name)
       end
     end
+    logout(:knocker)
   end
   describe "signup page" do
    	before { visit signup_path }
@@ -73,7 +76,7 @@ describe "Knocker Pages" do
       before do
         fill_in "First name",             with: "Example"
         fill_in "Last name",              with: "Knocker"
-        fill_in "Username",               with: "exampleuser"
+        fill_in "Identity",               with: "exampleuser"
         fill_in "Email",                  with: "knocker@example.com"
         fill_in "Password",               with: "password"
         fill_in "Password confirmation",  with: "password"
@@ -88,3 +91,4 @@ describe "Knocker Pages" do
     end
   end
 end
+Warden.test_reset! 

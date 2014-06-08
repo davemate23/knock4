@@ -1,0 +1,17 @@
+<div class="col-md-9">
+	<div id='calendar'>
+		<script>
+			$(document).ready(function() {
+
+			    // page is now ready, initialize the calendar...
+
+			    $('#calendar').fullCalendar({
+			    	events: '/events.json',
+			    	firstDay: 1
+			        // put your options and callbacks here
+			    })
+
+			});
+		</script>
+	</div>
+</div>

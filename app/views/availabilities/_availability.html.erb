@@ -1,0 +1,12 @@
+<%= form_for (@availability), :remote => true do |f| %>
+ <% if @availability.errors.any? %>
+      <div id="error_explanation">
+      	<h2><%= pluralize(@availability.errors.count, "error") %> prohibited your availability from being saved:</h2>
+<script>$(element_or_selector).multiDatesPicker(options_to_initialize_datepicker_and_multidatepicker);</script>
+<%= f.text_field :availability %>
+<div class="form-actions">
+              <%= f.button :submit, class: 'btn-primary' %>
+              <%= submit_tag 'Cancel', type: :reset, class: 'btn btn-danger' %>
+            </div>
+<% end %>
+<% end %>

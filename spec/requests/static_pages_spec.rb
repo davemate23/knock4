@@ -1,4 +1,6 @@
 require 'spec_helper'
+include Warden::Test::Helpers
+Warden.test_mode!
 
 describe "StaticPages" do
   subject {page}
@@ -17,11 +19,11 @@ describe "StaticPages" do
     it { should_not have_title('| Home') }
 
     describe "for signed-in knockers" do
-      let(:knocker) { FactoryGirl.create(:knocker) }
+      knocker = FactoryGirl.create(:knocker)
       before do
         FactoryGirl.create(:hype, knocker: knocker, content: "Lorem Ipsum", latitude: 51.410457, longitude: -0.833861)
         FactoryGirl.create(:hype, knocker: knocker, content: "Dolor Sit Amet", latitude: 51.410457, longitude: -0.833861)
-        sign_in knocker
+        login_as(knocker, :scope => :knocker)
         visit root_path
       end
 
@@ -30,6 +32,18 @@ describe "StaticPages" do
           expect(page).to have_selector("li##{item.id}", text: item.content)
         end
       end
+
+      describe "favourited/favourite counts" do
+        let(:other_knocker) { FactoryGirl.create(:knocker) }
+        before do
+          other_knocker.favourite!(knocker)
+          visit root_path
+        end
+
+        it { should have_link("0 Favourite Knockers", href: favourite_knocker_path(knocker)) }
+        it { should have_link("Favourite of 1 Knockers", href: favourited_knocker_path(knocker)) }
+      end
+      logout(:knocker)
     end
   end
 
@@ -73,3 +87,4 @@ describe "StaticPages" do
     expect(page).to have_title(full_title('Sign Up'))
   end
 end
+Warden.test_reset!

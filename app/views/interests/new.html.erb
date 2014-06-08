@@ -1,0 +1,18 @@
+<% provide(:title, 'Create an Interest') %>
+
+<h2>Create an Interest</h2>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3"> 
+    <%= form_for @interest, url: {action: "create"}, html: {class: "form-inline"} do |f| %>
+
+      <div class="col-md-6"><%= f.label :title %><br />
+      <%= f.text_field :title %></div>
+
+      <div class="col-md-6"><%= f.label :wikipedia %><br />
+      <%= f.text_field :wikipedia %></div>
+
+      <div><%= f.button "Create this Interest!", class: "btn btn-default" %></div>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,16 @@
+<% provide(:title, @interest.title) %>
+<div class="row">
+  <aside class="col-md-4">
+    <section>
+      <h1>
+	 	<%= @interest.title %>
+      </h1>
+    </section>
+    <section>
+      <%= @interest.summary %>
+    </section>
+  </aside>
+  <div class="col-md-8">
+    <%= @interest.content %>
+  </div>
+</div>

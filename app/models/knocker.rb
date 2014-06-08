@@ -4,24 +4,25 @@ class Knocker < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :omniauth_providers => [:facebook, :twitter, :google_oauth2]
 
-    before_save { self.username = username.downcase }
+    before_save { self.identity = identity.downcase }
 
     validates :first_name,    presence: true, 
                               length: { maximum: 25 }
     validates :last_name,     presence: true, 
                               length: { maximum: 25 }
-    VALID_USERNAME_REGEX = /\A[\w+\-._]+\z/i
-    validates :username,      presence: true, 
+    VALID_IDENTITY_REGEX = /\A[\w+\-._]+\z/i
+    validates :identity,      presence: true, 
                               length: { maximum: 20 },
-                              format: { with: VALID_USERNAME_REGEX },
+                              format: { with: VALID_IDENTITY_REGEX },
                               uniqueness: { case_sensitive: false }
     validates :email, 			  presence: true
     validates :password,      presence: true
     validates :birthday,      presence: true
     validates :gender, 			  presence: true
     validates :postcode, 		  presence: true
+    validates_format_of :postcode, :with =>  /\A([A-PR-UWYZ]([0-9]{1,2}|([A-HK-Y][0-9]|[A-HK-Y][0-9]([0-9]|[ABEHMNPRV-Y]))|[0-9][A-HJKS-UW])\s?[0-9][ABD-HJLNP-UW-Z]{2}|(GIR\ 0AA)|(SAN\ TA1)|(BFPO\ (C\/O\ )?[0-9]{1,4})|((ASCN|BBND|[BFS]IQQ|PCRN|STHL|TDCU|TKCA)\ 1ZZ))\z/i, :message => "invalid postcode"
 
-    has_attached_file :avatar, :styles => { :medium => "300x300", :thumb => "100x100" }, :default_url => "/images/original/missing.jpg"
+    has_attached_file :avatar, :styles => { :medium => "300x300", :thumb => "100x100", :micro => "30x30", :large => "500x500>" }, :default_url => "/images/:style/missing.jpg"
     validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
 
     geocoded_by :address
@@ -31,6 +32,10 @@ class Knocker < ActiveRecord::Base
 
     def address
       [town, postcode, country].compact.join(', ')
+    end
+
+    def feed
+      Hype.from_knockers_favourited_by(self)
     end
 
     def self.all_except(knocker)
@@ -62,7 +67,7 @@ class Knocker < ActiveRecord::Base
                         uid:auth.uid,
                         email:auth.uid+"@twitter.com",
                         password:Devise.friendly_token[0,20],
-                        username:auth.info.nickname,
+                        identity:auth.info.nickname,
                         about:auth.info.description                    )
   		end
    	end
@@ -103,12 +108,40 @@ class Knocker < ActiveRecord::Base
  		first_name + " " + last_name
  	end
 
-  def feed
-    #This is preliminary.
-    Hype.where("knocker_id = ?", id)
+  def mailboxer_email(object)
+    return email
   end
 
-  has_many :hypes, dependent: :destroy
+  def favourited?(other_knocker)
+    favouriteknockers.find_by(favourite_id: other_knocker.id)
+  end
 
+  def favourite!(other_knocker)
+    favouriteknockers.create!(favourite_id: other_knocker.id)
+  end
+
+  def unfavourite!(other_knocker)
+    favouriteknockers.find_by(favourite_id: other_knocker.id).destroy
+  end
+
+  has_many :hypes, as: :author, dependent: :destroy
+  has_many :posts, as: :postable, dependent: :destroy
   accepts_nested_attributes_for :hypes
+  has_many :favourite_knockers, through: :favouriteknockers, source: :favourite
+  has_many :favouriteknockers, foreign_key: "favourited_id", dependent: :destroy
+  has_many :reverse_favouriteknockers, foreign_key: "favourite_id",
+                                        class_name: "Favouriteknocker",
+                                        dependent: :destroy
+  has_many :favourited_knockers, through: :reverse_favouriteknockers, source: :favourited
+  has_many :interests, through: :knocker_interests
+  has_many :venues, through: :knocker_venues
+  has_many :events, through: :event_attendances
+  has_many :groups, through: :group_members
+  has_many :knocker_interests, dependent: :destroy
+  has_many :knocker_venues, dependent: :destroy
+  has_many :event_attendances, dependent: :destroy
+  has_many :group_members, dependent: :destroy
+  has_many :availabilities, dependent: :destroy
+  acts_as_messageable
+
 end

@@ -24,3 +24,5 @@ en:
   date:
    formats: 
     slashes: "%d/%m/%Y"
+  TrueClass: "Yes"
+  FalseClass: "No"

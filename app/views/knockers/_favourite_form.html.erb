@@ -1,0 +1,9 @@
+<% unless current_knocker == @knocker %>
+  <div id="favourite_form">
+  <% if current_knocker.favourited?(@knocker) %>
+    <%= render 'unfavourite' %>
+  <% else %>
+    <%= render 'favourite' %>
+  <% end %>
+  </div>
+<% end %>

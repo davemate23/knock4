@@ -1,0 +1,71 @@
+<% provide(:title, @event.name) %>
+<div class="row">
+  <aside class="col-md-4">
+    <section>
+      <h1>
+      	<%= image_tag @event.avatar.url(:thumb) %>
+	 	<%= @event.name %><br />
+	 	!<%= @event.identity %><br />
+    <% if EventAttendance.where(knocker_id: current_knocker.id, event_id: @event.id, admin: 1).present? %>
+      <%= link_to "Edit Event", edit_event_path %>
+    <% end %>
+      </h1>
+    </section>
+  </aside>
+  <section>
+	  <div class="col-md-8">
+	    <strong>Starts at:</strong>
+	    <%= @event.start_time %><br />
+	    <strong>Ends at:</strong>
+	    <%= @event.end_time %><br />
+	    <strong>Description:</strong>
+	    <%= @event.description %><br />
+	    <strong>Website:</strong>
+	    <%= @event.website %><br />
+	  </div>
+  </section>
+  <section>
+  	<div>
+	  	<% if @event.interests.any? %>
+	  	<h2>Event Interests</h2>
+	  		<h3>Interests (<%= @event.interests.count %>)</h3>
+	  		<ol class="interests">
+	  			<%= render @event.interests %>
+	  		</ol>
+	  		<%= will_paginate @interests %>
+	  	<% end %>
+ 	</div>
+  	<div>
+	  	<% if @event.knockers.any? %>
+	  	<h2>Attendees</h2>
+	  		<h3>Knockers (<%= @event.knockers.count %>)</h3>
+	  		<ol class="knockers">
+	  			<%= render @event.knockers %>
+	  		</ol>
+	  		<%= will_paginate @knockers %>
+	  	<% end %>
+ 	</div>
+
+  	<div>
+	  	<% if @event.venues.any? %>
+	  	<h2>Associated Venues</h2>
+	  		<h3>Venues (<%= @event.venues.count %>)</h3>
+	  		<ol class="venues">
+	  			<%= render @event.venues %>
+	  		</ol>
+	  		<%= will_paginate @venues %>
+	  	<% end %>
+  	</div>
+
+  	<div>
+  		<% if @event.groups.any? %>
+  	<h2>Event Groups</h2>
+  		<h3>Events (<%= @event.groups.count %>)</h3>
+  		<ol class="events">
+  			<%= render @event.groups %>
+  		</ol>
+  		<%= will_paginate @groups %>
+  	<% end %>
+  	</div>
+  </section>
+</div>

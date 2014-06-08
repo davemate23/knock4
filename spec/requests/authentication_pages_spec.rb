@@ -1,4 +1,6 @@
 require 'spec_helper'
+  include Warden::Test::Helpers
+  Warden.test_mode!
 
 describe "Authentication" do
 
@@ -21,7 +23,7 @@ describe "Authentication" do
     end
 
     describe "with valid information" do
-      let(:user) { FactoryGirl.create(:knocker) }
+      let(:knocker) { FactoryGirl.create(:knocker) }
       before do
         fill_in "Email",    with: knocker.email.upcase
         fill_in "Password", with: knocker.password
@@ -54,9 +56,10 @@ describe "Authentication" do
       end
 
       describe "submitting to the destroy action" do
-        before { delete hype_path(FactoryGirl.create(:micropost)) }
+        before { delete hype_path(FactoryGirl.create(:hype)) }
         specify { expect(response).to redirect_to(signin_path) }
       end
     end
   end
 end
+Warden.test_reset!

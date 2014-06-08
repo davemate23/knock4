@@ -1,0 +1,2 @@
+$('#favourite_form').html("<%= escape_javascript(render('knockers/favourite')).html_safe %>");
+$('#favourite').html("<%= @knocker.favourite_knockers.count %>");

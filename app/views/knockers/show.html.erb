@@ -1,20 +1,30 @@
 <% provide(:title, @knocker.name) %>
 <div class="row">
-  <aside class="col-md-4">
+  <aside class="col-md-2">
     <section>
       <h1>
-      	<%= image_tag @knocker.avatar.url(:medium) %>
-	 	<%= @knocker.name %>
+        <%= image_tag @knocker.avatar.url(:thumb) %><br />
+    <%= @knocker.name %><br /><small>(
+    :<%= @knocker.identity %>)</small>
       </h1>
+      <%= link_to 'Send Message', new_message_path(:knocker => @knocker) %>
+      <div id="modal-window" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
+    <section>
+      <%= render 'shared/stats' %>
+      <%= render 'favourite_form' if signed_in? %>
     </section>
   </aside>
-  <div class="col-md-8">
-  	<% if @knocker.hypes.any? %>
+  <div class="col-md-4">
+    <%= render 'shared/post_form' if signed_in? %>
+  	<% if @knocker.posts.any? %>
   		<h3>Hypes (<%= @knocker.hypes.count %>)</h3>
   		<ol class="hypes">
-  			<%= render @hypes %>
+  			<%= render @knocker.posts %>
   		</ol>
-  		<%= will_paginate @hypes %>
+  		<%= will_paginate @posts %>
   	<% end %>
+  </div>
+  <div class="col-md-2">
+    <%= render 'availability' %>
   </div>
 </div>

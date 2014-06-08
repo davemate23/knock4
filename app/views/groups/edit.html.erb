@@ -1,0 +1,28 @@
+<% provide(:title, 'Edit Group') %>
+
+<h2>Edit Group</h2>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3"> 
+    <%= form_for @group, url: {action: "create"}, html: {class: "form-inline"} do |f| %>
+
+      <div><%= image_tag @group.avatar.url(:thumb) %></div>
+  	  <div><%= f.label :avatar %><br />
+  	  <%= f.file_field :avatar %></div>
+
+      <div class="col-md-6"><%= f.label :name %><br />
+      <%= f.text_field :name %></div>
+
+      <div class="col-md-6"><%= f.label :description %><br />
+      <%= f.text_area :description %></div>
+
+      <div class="col-md-6"><%= f.label :website %><br />
+      <%= f.text_field :website %></div>
+
+      <div class="col-md-6"><%= f.label :phone %><br />
+      <%= f.text_field :phone %></div>
+
+      <div><%= f.button "Update Group!", class: "btn btn-default" %></div>
+    <% end %>
+  </div>
+</div>

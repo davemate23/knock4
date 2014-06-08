@@ -12,6 +12,14 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery.ui.all
+//= require jquery-ui.multidatespicker
+//= require jquery.purr
+//= require fullcalendar
+//= require best_in_place
 //= require bootstrap
+//= require bootstrap/modal
+//= require underscore
+//= require gmaps/google
 //= require turbolinks
 //= require_tree .

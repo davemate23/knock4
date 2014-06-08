@@ -1,0 +1,30 @@
+<% provide(:title, @title) %>
+<div class="row">
+  <aside class="col-md-4">
+    <section>
+      <%= image_tag @knocker.avatar.url(:thumb) %>
+      <h1><%= @knocker.name %></h1>
+      <span><%= link_to "view my profile", @knocker %></span>
+      <span><b>Hypes:</b> <%= @knocker.hypes.count %></span>
+    </section>
+    <section>
+      <%= render 'shared/stats' %>
+      <% if @knockers.any? %>
+        <div class="knocker_avatars">
+          <% @knockers.each do |knocker| %>
+            <%= image_tag knocker.avatar.url(:micro) %>
+          <% end %>
+        </div>
+      <% end %>
+    </section>
+  </aside>
+  <div class="col-md-8">
+    <h3><%= @title %></h3>
+    <% if @knockers.any? %>
+      <ul class="knockers">
+        <%= render @knockers %>
+      </ul>
+      <%= will_paginate %>
+    <% end %>
+  </div>
+</div>

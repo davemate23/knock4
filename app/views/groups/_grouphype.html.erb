@@ -1,0 +1,8 @@
+<%= bootstrap_form_for ([@hypeable, Hype.new]), remote: true do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+  <div class="field">
+    <%= f.text_area :content, placeholder: "Create some Hype..." %>
+  </div>
+  <%= f.hidden_field(:hypeable, @group) %>
+  <%= f.submit "Post", class: "btn btn-large btn-primary" %>
+<% end %>

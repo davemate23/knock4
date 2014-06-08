@@ -28,7 +28,7 @@ class RegistrationsController < Devise::RegistrationsController
   # extend this as needed
   def needs_password?(knocker, params)
     knocker.email != params[:knocker][:email] ||
-    knocker.username != params[:knocker][:username] ||
+    knocker.identity != params[:knocker][:identity] ||
       params[:knocker][:password].present?
   end
 end

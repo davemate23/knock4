@@ -9,6 +9,7 @@ gem 'pg'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
 gem 'bootstrap-sass', '~>3.1.1'
+gem 'bootstrap_form'
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
@@ -21,6 +22,10 @@ gem 'coffee-rails', '~> 4.0.0'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
+gem 'jquery-ui-sass-rails'
+
+# Allows in place editing
+gem 'best_in_place', github: 'aaronchi/best_in_place'
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
@@ -70,13 +75,22 @@ gem "omniauth-google-oauth2"
 
 # File Attachments
 gem "paperclip", "~> 4.1"
+gem 'nokogiri'
 
 # Geocoding
 gem 'geocoder'
+gem 'gmaps4rails'
 
 # More Knockers
 gem 'faker'
 
+# Messaging
+gem 'mailboxer'
+
 # Pagination
 gem 'will_paginate'
 gem 'bootstrap-will_paginate'
+
+# Calendar and Availability
+gem 'multi-dates-picker-rails'
+gem 'fullcalendar-rails'

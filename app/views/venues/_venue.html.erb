@@ -1,0 +1,5 @@
+<li>
+	<%= image_tag venue.avatar.url(:thumb) %>
+	<%= link_to venue.name, venue %><br />
+	<%= venue.distance_to(current_knocker) %>km
+</li>

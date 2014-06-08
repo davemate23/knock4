@@ -3,7 +3,7 @@ FactoryGirl.define do
     sequence(:first_name)  { |n| "First #{n}" }
     sequence(:last_name)  { |n| "Last #{n}" }
     sequence(:email) { |n| "person_#{n}@example.com"}
-    sequence(:username) { |n| "person_#{n}"}
+    sequence(:identity) { |n| "person_#{n}"}
     birthday				"11/02/1986"
     gender 					"male"
     password 				"password"

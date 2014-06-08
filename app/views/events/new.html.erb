@@ -1,0 +1,28 @@
+<% provide(:title, 'Create a new Event') %>
+
+<h2>Create a new Event</h2>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3"> 
+    <%= bootstrap_form_for(@event) do |f| %>
+
+      <div><%= image_tag @event.avatar.url(:thumb) %></div>
+
+  	  <div><%= f.file_field :avatar %></div>
+
+      <div><%= f.text_field :name %></div>
+
+      <div><%= f.text_area :description %></div>
+
+      <div><%= f.text_field :website %></div>
+
+      <div><%= f.datetime_select :start_time %></div>
+
+      <div><%= f.datetime_select :end_time %></div>
+
+      <div><%= f.check_box :private %></div>
+
+      <%= f.submit "Create this Event!" %>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,4 @@
+<%= form_for(current_knocker.favouriteknockers.build(favourite_id: @knocker.id), remote: true) do |f| %>
+  <div><%= f.hidden_field :favourite_id %></div>
+  <%= f.submit "Add to Favourites", class: "btn btn-large btn-primary" %>
+<% end %>

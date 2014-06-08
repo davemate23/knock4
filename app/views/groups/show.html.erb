@@ -1,0 +1,84 @@
+<% provide(:title, @group.name) %>
+<div class="row">
+  <aside class="col-md-4">
+    <section>
+      <h1>
+      	<%= image_tag @group.avatar.url(:thumb) %>
+	 	<%= @group.name %><br />
+    *<%= @group.identity %><br />
+    <% if GroupMember.where(knocker_id: current_knocker.id, group_id: @group.id, admin: 1).present? %>
+      <%= link_to "Edit Group", edit_group_path %>
+    <% end %>
+      </h1>
+    </section>
+  </aside>
+  <section>
+    <div class="col-md-8">
+      <strong>Description:</strong>
+      <%= @group.description %><br />
+      <strong>Website:</strong>
+      <%= @group.website %><br />
+      <strong>Phone:</strong>
+      <%= @group.phone %><br />
+    </div>
+  </section>
+  <aside class="col-md-3">
+  <div>
+    	<div>
+  	  	<% if @group.interests.any? %>
+  	  	<h2>Group Interests</h2>
+  	  		<h3>Interests (<%= @group.interests.count %>)</h3>
+  	  		<ol class="interests">
+  	  			<%= render @group.interests %>
+  	  		</ol>
+  	  		<%= will_paginate @interests %>
+  	  	<% end %>
+   	  </div>
+    	<div>
+  	  	<% if @group.knockers.any? %>
+  	  	<h2>Group Members</h2>
+  	  		<h3>Knockers (<%= @group.knockers.count %>)</h3>
+  	  		<ol class="knockers">
+  	  			<%= render @group.knockers %>
+  	  		</ol>
+  	  		<%= will_paginate @knockers %>
+  	  	<% end %>
+   	  </div>
+    	<div>
+  	  	<% if @group.venues.any? %>
+  	  	<h2>Associated Venues</h2>
+  	  		<h3>Venues (<%= @group.venues.count %>)</h3>
+  	  		<ol class="venues">
+  	  			<%= render @group.venues %>
+  	  		</ol>
+  	  		<%= will_paginate @venues %>
+  	  	<% end %>
+    	</div>
+
+    	<div>
+    		<% if @group.events.any? %>
+    	  <h2>Group Events</h2>
+    		<h3>Events (<%= @group.events.count %>)</h3>
+    		<ol class="events">
+    			<%= render @group.events %>
+    		</ol>
+    		<%= will_paginate @events %>
+    	 <% end %>
+    	</div>          
+  </div>
+  </aside>
+  <aside class="col-md-9">
+    <section>
+        <%= render 'grouphype_form' %>
+    </section>
+    <section>
+      <% if @group.hypes.any? %>
+        <h3>Hypes (<%= @knocker.hypes.count %>)</h3>
+        <ol class="hypes">
+          <%= render @hypes %>
+        </ol>
+        <%= will_paginate @hypes %>
+      <% end %>
+    </section>
+  </aside>
+</div>

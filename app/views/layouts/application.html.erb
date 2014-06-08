@@ -1,20 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= full_title(yield(:title)) %></title>
+  <title><%= full_title(yield(:title)).html_safe %></title>
   <%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
   <%= render 'layouts/shim' %>
 </head>
 <body>
-  <p class="notice"><%= notice %></p>
-  <p class="alert"><%= alert %></p>
+  <div class="col-md-9">
   <%= render 'layouts/nav' %>
 	<div class="container">
+    <%= render 'layouts/messages' %>
 		<%= yield %>
     <%= render 'layouts/footer' %>
     <%= debug(params) if Rails.env.development? %>
 	</div>
+</div>
+  <div class="col-md-3">
+    <%= render 'layouts/right_hand' %>
+  </div>
 </body>
 </html>

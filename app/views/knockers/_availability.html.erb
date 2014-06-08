@@ -1,0 +1,16 @@
+<% today = Date.today
+end_date = Date.today+13 %>
+<table class="table table-condensed" id="myTable">
+<% (today..end_date).each do |day| %>
+	<% if @knocker.availabilities.pluck(:availability).include? day %>
+		<tr bgcolor="#00FF00"><font color="#0">
+	<% else %>
+		<tr bgcolor="#FF0000" color="#FFF"><font color="#FFF">
+	<% end %>
+	  	<td><%= day.strftime("%a") %></td> 
+	  	<td><%= day.strftime("%d") %></td>
+	  	<td><%= day.strftime("%b") %></td>
+	  </font>
+	</tr>
+<% end %>
+</table>

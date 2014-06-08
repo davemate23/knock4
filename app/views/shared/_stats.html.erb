@@ -1,0 +1,15 @@
+<% @knocker ||= current_knocker %>
+<div class="stats">
+  <a href="<%= favourite_knockers_knocker_path(@knocker) %>">
+    <strong id="favourite" class="stat">
+      <%= @knocker.favourite_knockers.count %>
+    </strong>
+    Favourite Knockers
+  </a>
+  <a href="<%= favourited_knockers_knocker_path(@knocker) %>">Favourite of
+    <strong id="favourited" class="stat">
+      <%= @knocker.favourited_knockers.count %>
+    </strong>
+    Knockers
+  </a>
+</div>

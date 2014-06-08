@@ -1,19 +1,26 @@
 <% if signed_in? %>
+<% provide(:title, current_knocker.name) %>
 	<div class="row">
 		<aside class="col-md-4">
 			<section>
 				<%= render 'shared/knocker_info' %>
 			</section>
 			<section>
+				<%= render 'shared/stats' %>
+			</section>
+			<section>
 				<%= render 'shared/hype_form' %>
+			</section>
+			<section>
+				<%= render 'availabilities/availability' %>
 			</section>
 		</aside>
 		<div class="col-md-8">
 			<h3>Hype</h3>
-			<%= render 'shared/feed' %>
 		</div>
 	</div>
 <% else %>
+<% provide(:title, 'Recreating Recreation') %>
 	<div class="center hero-unit">
 		<h1>Knock4</h1>
 		<h2>This is the homepage for Knock4.
@@ -23,6 +30,4 @@
 	</div>
 
 	<%= link_to image_tag("/images/original/k4_logo.png", alt: "Knock4"), 'http://www.knock4.com' %>
-
-<%= link_to image_tag("k4_logo.png", alt: "Knock4"), 'http://www.knock4.com' %>
 <% end %>

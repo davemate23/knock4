@@ -1,0 +1,11 @@
+<% provide(:title, 'Events') %>
+
+<h1>All Events</h1>
+
+<%= will_paginate @events %>
+
+<ul class="events">
+	<%= render @events %>
+</ul>
+
+<%= will_paginate @events %>

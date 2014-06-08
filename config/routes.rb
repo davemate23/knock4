@@ -1,8 +1,69 @@
 Knock4::Application.routes.draw do
 
+  get "groups/index"
+  get "groups/new"
+  get "groups/show"
+  get "events/index"
+  get "events/new"
+  get "events/show"
+  get "venues/index"
+  get "venues/new"
+  get "venues/show"
+  get "interests/index"
+  get "interests/new"
+  get "interests/show"
   devise_for :knockers, :controllers => { :omniauth_callbacks => "omniauth_callbacks", :registrations => "registrations" }
-  resources :knockers, only: [:index]
+  resources :knockers, :only => [:index] do
+    member do
+      get :favourite_knockers, :favourited_knockers
+    end
+    resources :posts
+  end
+
+  resources :venues do
+      resources :posts
+  end
+
+  resources :groups do
+      resources :posts
+  end
+
+  resources :events do
+      resources :posts
+  end
+
+  resources :interests do
+      resources :posts
+  end
+
   resources :hypes, only: [:create, :destroy]
+  resources :favouriteknockers, only: [:create, :destroy]
+  resources :knocker_interests, only: [:create, :destroy]
+  resources :knocker_venues, only: [:create, :destroy]
+  resources :venue_interests, only: [:create, :destroy]
+  resources :event_attendances, only: [:create, :destroy]
+  resources :event_venues, only: [:create, :destroy]
+  resources :group_events, only: [:create, :destroy]
+  resources :group_members, only: [:create, :destroy]
+  resources :group_venues, only: [:create, :destroy]
+  resources :posts, only: [:create, :destroy]
+  resources :availabilities
+  resources :messages do
+    member do
+      post :new
+    end
+  end
+  resources :conversations do
+    member do
+      post :reply
+      post :trash
+      post :untrash
+    end
+   collection do
+      get :trashbin
+      post :empty_trash
+   end
+  end
   
   root 'static_pages#home'
   devise_scope :knocker do
@@ -15,6 +76,7 @@ Knock4::Application.routes.draw do
 
   get '/knockers/:id' => 'knockers#show', as: 'knocker'
   get '/knockers' => 'knockers#index', as: 'knocker_index'
+  get '/calendar' => 'events#calendar', as: 'calendar'
   match '/help', to: 'static_pages#help', via: 'get'
   match '/about', to: 'static_pages#about', via: 'get'
   match '/contact', to: 'static_pages#contact', via: 'get'
