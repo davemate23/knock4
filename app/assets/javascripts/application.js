@@ -15,6 +15,7 @@
 //= require jquery.ui.all
 //= require jquery-ui.multidatespicker
 //= require jquery.purr
+//= require image-picker
 //= require fullcalendar
 //= require best_in_place
 //= require bootstrap

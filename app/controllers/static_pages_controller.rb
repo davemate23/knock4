@@ -2,7 +2,7 @@ class StaticPagesController < ApplicationController
   def home
   	if signed_in?
   		@hype = current_knocker.hypes.build
-  		@feed_items = current_knocker.feed.paginate(page: params[:page])
+  		@feed_items = current_knocker.feed.page params[:page]
   	  @availability = Availability.new
     end
   end

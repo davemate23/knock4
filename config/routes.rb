@@ -12,24 +12,43 @@ Knock4::Application.routes.draw do
   get "interests/index"
   get "interests/new"
   get "interests/show"
+
   devise_for :knockers, :controllers => { :omniauth_callbacks => "omniauth_callbacks", :registrations => "registrations" }
   resources :knockers, :only => [:index] do
     member do
       get :favourite_knockers, :favourited_knockers
     end
     resources :posts
+    resource :profile, only: [:show, :edit, :update] 
+    resources :knocker_venues
+    resources :knocker_interests
+    resources :group_members
+    resources :event_attendances
   end
 
   resources :venues do
       resources :posts
+      resources :interests, controller: 'venue_interests'
+      resources :venue_interests
+      resources :knocker_venues
+      resources :group_venues
+      resources :event_venues
   end
 
   resources :groups do
       resources :posts
+      resources :group_venues
+      resources :group_events
+      resources :group_members
+      resources :groups_interests
   end
 
   resources :events do
       resources :posts
+      resources :event_venues
+      resources :event_attendances
+      resources :group_events
+      resources :event_interests
   end
 
   resources :interests do
@@ -46,6 +65,7 @@ Knock4::Application.routes.draw do
   resources :group_events, only: [:create, :destroy]
   resources :group_members, only: [:create, :destroy]
   resources :group_venues, only: [:create, :destroy]
+  resources :groups_interests, only: [:create, :destroy]
   resources :posts, only: [:create, :destroy]
   resources :availabilities
   resources :messages do
@@ -74,6 +94,10 @@ Knock4::Application.routes.draw do
     delete "/logout", to: 'devise/sessions#destroy'
   end
 
+  get '/venues/:id/edit_interests' => 'venues#edit_interests', as: 'venue_edit_interests'
+  post '/venues/:id/update_interests' => 'venues#update_interests', as: 'venue_update_interests'
+  delete '/venues/:id/update_interests' => 'venues#delete_interests', as: 'venue_delete_interests'
+  get '/profile' => 'profiles#show', as: 'profile'
   get '/knockers/:id' => 'knockers#show', as: 'knocker'
   get '/knockers' => 'knockers#index', as: 'knocker_index'
   get '/calendar' => 'events#calendar', as: 'calendar'

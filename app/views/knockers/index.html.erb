@@ -1,10 +1,9 @@
 <% provide(:title, 'All knockers') %>
 <h1>All Knockers</h1>
 
-<%= will_paginate @knockers %>
-
+<%= paginate @knockers, :theme => 'twitter-bootstrap-3' %>
 <ul class="knockers">
 	<%= render @knockers %>
 </ul>
 
-<%= will_paginate @knockers %>
+<%= paginate @knockers, :theme => 'twitter-bootstrap-3' %>

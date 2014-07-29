@@ -14,7 +14,11 @@ class Interest < ActiveRecord::Base
 	PAGE_URL1 = "http://en.wikipedia.org/w/index.php?title="
 	PAGE_URL2 = "&printable=yes"
 
-	def get_content
+	def self.all_except(interest)
+            where.not(id: interest)
+      end
+
+      def get_content
 		page_url = PAGE_URL1 + self.wikipedia + PAGE_URL2
 		page = Nokogiri::HTML(open(page_url))
 		self.summary = page.css("p")[0].text

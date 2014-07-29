@@ -9,7 +9,13 @@ class Event < ActiveRecord::Base
 	has_many :group_events, dependent: :destroy
 	has_many :hypes, as: :author, dependent: :destroy
 	has_many :hypes, as: :hypeable, dependent: :destroy
+	
 	accepts_nested_attributes_for :hypes
+	accepts_nested_attributes_for :event_attendances
+	accepts_nested_attributes_for :event_venues
+	accepts_nested_attributes_for :event_interests
+	accepts_nested_attributes_for :group_events
+	
 	acts_as_messageable
 
 	validates :name,    	presence: true, 

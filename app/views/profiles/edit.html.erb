@@ -1,0 +1,15 @@
+<%= bootstrap_form_for @profile, url: knocker_profile_path do |f| %>
+
+<%= f.text_area :about, placeholder: "Tell everyone about yourself..." %>
+<%= f.text_field :nationality %>
+
+<%= f.text_field :occupation %>
+
+<%= f.text_field :employer %>
+
+<%= f.check_box :transport  %>
+
+<%= f.submit %>
+
+
+<% end %>

@@ -4,6 +4,7 @@ class Knocker < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :omniauth_providers => [:facebook, :twitter, :google_oauth2]
 
+    before_create :build_profile #creates profile at user registration
     before_save { self.identity = identity.downcase }
 
     validates :first_name,    presence: true, 
@@ -28,7 +29,7 @@ class Knocker < ActiveRecord::Base
     geocoded_by :address
     after_validation :geocode
 
-    self.per_page = 20
+    paginates_per 20
 
     def address
       [town, postcode, country].compact.join(', ')
@@ -124,6 +125,7 @@ class Knocker < ActiveRecord::Base
     favouriteknockers.find_by(favourite_id: other_knocker.id).destroy
   end
 
+  has_one :profile, dependent: :destroy
   has_many :hypes, as: :author, dependent: :destroy
   has_many :posts, as: :postable, dependent: :destroy
   accepts_nested_attributes_for :hypes
@@ -142,6 +144,14 @@ class Knocker < ActiveRecord::Base
   has_many :event_attendances, dependent: :destroy
   has_many :group_members, dependent: :destroy
   has_many :availabilities, dependent: :destroy
+  
+  accepts_nested_attributes_for :profile
+  accepts_nested_attributes_for :knocker_venues
+  accepts_nested_attributes_for :knocker_interests
+  accepts_nested_attributes_for :event_attendances
+  accepts_nested_attributes_for :group_members
+  
   acts_as_messageable
+
 
 end

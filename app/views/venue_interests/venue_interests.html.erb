@@ -1,0 +1,10 @@
+<% provide(:title, 'Add Interests') %>
+<h1>All Interests</h1>
+
+<%= will_paginate @interests %>
+
+<ul class="interests">
+	<%= render @interests %>
+</ul>
+
+<%= will_paginate @interests %>

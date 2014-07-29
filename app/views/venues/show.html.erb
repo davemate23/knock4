@@ -43,6 +43,16 @@
     <%= translate(@venue.baby_changing.class) %><br />
   </section>
 
+  <section>
+      <% if KnockerVenue.where(knocker_id: current_knocker.id, venue_id: @venue.id, admin: 1).present? %>
+        <% if @venue.interests.present? %>
+          <%= link_to "Update Associated Interests", venue_interests_path(@venue) %>
+        <% else %>
+          <%= link_to "Add Associated Interests", new_venue_interest_path(@venue) %>
+        <% end %>
+      <% end %>
+  </section>
+
     <section>
       <div style='width: 400px;'>
         <div id="map" style='width: 400px; height: 400px;'></div>
@@ -57,6 +67,16 @@
       });
       </script>
     </section>
+    <section>
+      <div>
+        <h3>Associated Interests</h3>
+        <% if @venue.interests.present? %>
+          <%= render partial: '/venues/interests' %>
+        <% end %>
+
+      </div>
+    </section>
+
 
 
   </div>

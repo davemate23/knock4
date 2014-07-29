@@ -1,0 +1,18 @@
+<% provide(:title, 'Venue Interests') %>
+
+<h1><%= @venue.name %>'s Interests</h1>
+
+<%= paginate @interests, :theme => 'twitter-bootstrap-3' %>
+
+<ul class="venues">
+	<%= render @venue.interests %>
+</ul>
+
+<%= paginate @interests, :theme => 'twitter-bootstrap-3' %>
+
+<h2>Add More Interests</h2>
+
+<%= form_for @venue do |f| %>
+    <%= f.select :interest_ids, Interest.all_except(@venue.interests).collect {|x| [x.title, x.id]}, {}, :multiple => true %>
+    <%= f.submit %>
+<% end %>

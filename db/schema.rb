@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140601194411) do
+ActiveRecord::Schema.define(version: 20140624200534) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,12 +25,6 @@ ActiveRecord::Schema.define(version: 20140601194411) do
 
   add_index "availabilities", ["availability"], name: "index_availabilities_on_availability", using: :btree
   add_index "availabilities", ["knocker_id"], name: "index_availabilities_on_knocker_id", using: :btree
-
-  create_table "conversations", force: true do |t|
-    t.string   "subject",    default: ""
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
-  end
 
   create_table "event_attendances", force: true do |t|
     t.integer  "knocker_id"
@@ -238,9 +232,7 @@ ActiveRecord::Schema.define(version: 20140601194411) do
     t.float    "latitude"
     t.float    "longitude"
     t.date     "birthday",                               null: false
-    t.text     "about"
     t.string   "gender",                                 null: false
-    t.string   "nationality"
     t.boolean  "admin",                  default: false
     t.string   "email",                  default: "",    null: false
     t.string   "encrypted_password",     default: "",    null: false
@@ -270,7 +262,13 @@ ActiveRecord::Schema.define(version: 20140601194411) do
   add_index "knockers", ["latitude", "longitude"], name: "index_knockers_on_latitude_and_longitude", using: :btree
   add_index "knockers", ["reset_password_token"], name: "index_knockers_on_reset_password_token", unique: true, using: :btree
 
-  create_table "notifications", force: true do |t|
+  create_table "mailboxer_conversations", force: true do |t|
+    t.string   "subject",    default: ""
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  create_table "mailboxer_notifications", force: true do |t|
     t.string   "type"
     t.text     "body"
     t.string   "subject",              default: ""
@@ -288,7 +286,21 @@ ActiveRecord::Schema.define(version: 20140601194411) do
     t.datetime "expires"
   end
 
-  add_index "notifications", ["conversation_id"], name: "index_notifications_on_conversation_id", using: :btree
+  add_index "mailboxer_notifications", ["conversation_id"], name: "index_mailboxer_notifications_on_conversation_id", using: :btree
+
+  create_table "mailboxer_receipts", force: true do |t|
+    t.integer  "receiver_id"
+    t.string   "receiver_type"
+    t.integer  "notification_id",                            null: false
+    t.boolean  "is_read",                    default: false
+    t.boolean  "trashed",                    default: false
+    t.boolean  "deleted",                    default: false
+    t.string   "mailbox_type",    limit: 25
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
+  end
+
+  add_index "mailboxer_receipts", ["notification_id"], name: "index_mailboxer_receipts_on_notification_id", using: :btree
 
   create_table "posts", force: true do |t|
     t.integer  "knocker_id"
@@ -306,19 +318,21 @@ ActiveRecord::Schema.define(version: 20140601194411) do
   add_index "posts", ["postable_id", "created_at"], name: "index_posts_on_postable_id_and_created_at", using: :btree
   add_index "posts", ["postable_id", "postable_type"], name: "index_posts_on_postable_id_and_postable_type", using: :btree
 
-  create_table "receipts", force: true do |t|
-    t.integer  "receiver_id"
-    t.string   "receiver_type"
-    t.integer  "notification_id",                            null: false
-    t.boolean  "is_read",                    default: false
-    t.boolean  "trashed",                    default: false
-    t.boolean  "deleted",                    default: false
-    t.string   "mailbox_type",    limit: 25
-    t.datetime "created_at",                                 null: false
-    t.datetime "updated_at",                                 null: false
+  create_table "profiles", force: true do |t|
+    t.integer  "knocker_id"
+    t.text     "about"
+    t.string   "nationality"
+    t.string   "occupation"
+    t.string   "employer"
+    t.boolean  "transport"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  add_index "receipts", ["notification_id"], name: "index_receipts_on_notification_id", using: :btree
+  add_index "profiles", ["employer"], name: "index_profiles_on_employer", using: :btree
+  add_index "profiles", ["knocker_id"], name: "index_profiles_on_knocker_id", using: :btree
+  add_index "profiles", ["nationality"], name: "index_profiles_on_nationality", using: :btree
+  add_index "profiles", ["occupation"], name: "index_profiles_on_occupation", using: :btree
 
   create_table "venue_interests", force: true do |t|
     t.integer  "venue_id"
@@ -366,8 +380,8 @@ ActiveRecord::Schema.define(version: 20140601194411) do
   add_index "venues", ["latitude", "longitude"], name: "index_venues_on_latitude_and_longitude", using: :btree
   add_index "venues", ["name"], name: "index_venues_on_name", using: :btree
 
-  add_foreign_key "notifications", "conversations", name: "notifications_on_conversation_id"
+  add_foreign_key "mailboxer_notifications", "mailboxer_conversations", name: "notifications_on_conversation_id", column: "conversation_id"
 
-  add_foreign_key "receipts", "notifications", name: "receipts_on_notification_id"
+  add_foreign_key "mailboxer_receipts", "mailboxer_notifications", name: "receipts_on_notification_id", column: "notification_id"
 
 end

@@ -5,14 +5,20 @@ class Venue < ActiveRecord::Base
 	has_many :knockers, -> { select('knockers.*, knocker_venues.admin as is_venue_admin') }, through: :knocker_venues
 	has_many :interests, through: :venue_interests
 	has_many :events, through: :event_venues
-  has_many :groups, through: :venue_groups
+  has_many :groups, through: :group_venues
   has_many :knocker_venues, dependent: :destroy
   has_many :venue_interests, dependent: :destroy
   has_many :event_venues, dependent: :destroy
   has_many :group_venues, dependent: :destroy
   has_many :hypes, as: :author, dependent: :destroy
   has_many :hypes, as: :hypeable, dependent: :destroy
+  
   accepts_nested_attributes_for :hypes
+  accepts_nested_attributes_for :venue_interests, :allow_destroy => true
+  accepts_nested_attributes_for :group_venues
+  accepts_nested_attributes_for :knocker_venues
+  accepts_nested_attributes_for :event_venues
+  
   acts_as_messageable
 
 
@@ -37,5 +43,9 @@ class Venue < ActiveRecord::Base
 	def address
 		[address1, address2, town, county, postcode, country].compact.join(', ')
 	end
+
+  def distance
+    self.distance_to(current_knocker)
+  end
 
 end

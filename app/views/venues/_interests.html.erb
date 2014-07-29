@@ -1,0 +1,7 @@
+<% @venue.interests.each do |interest| %>
+  <div class="attached_interests">
+  	<%= image_tag interest.avatar.url(:micro) %><br />
+	<%= link_to interest.title %><br />
+	<%= link_to 'Remove', @venue.interests.delete(@interest) %>
+  </div>
+<% end %>

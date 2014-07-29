@@ -7,7 +7,17 @@
 
 			    $('#calendar').fullCalendar({
 			    	events: '/events.json',
-			    	firstDay: 1
+			    	firstDay: 1,
+			    	dayClick: function(date, allDay, jsEvent, view) {
+
+				    jQuery.post(
+				        "availability/new" 
+				        , { 
+				            knocker_id: current_knocker.id,
+				            allDay: allDay
+				        }
+				    );
+				}
 			        // put your options and callbacks here
 			    })
 

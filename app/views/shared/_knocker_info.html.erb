@@ -3,7 +3,7 @@
   <%= current_knocker.name %>
 </h1>
 <span>
-  <%= link_to "view my profile", current_knocker %>
+  <%= link_to "view my profile", profile_path %>
 </span>
 <span>
   <%= pluralize(current_knocker.hypes.count, "hype") %>

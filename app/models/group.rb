@@ -6,9 +6,16 @@ class Group < ActiveRecord::Base
 	has_many :group_events, dependent: :destroy
 	has_many :group_members, dependent: :destroy
 	has_many :group_venues, dependent: :destroy
+	has_many :groups_interests, dependent: :destroy
 	has_many :hypes, as: :author, dependent: :destroy
 	has_many :hypes, as: :hypeable, dependent: :destroy
+	
 	accepts_nested_attributes_for :hypes
+	accepts_nested_attributes_for :group_members
+	accepts_nested_attributes_for :group_venues
+	accepts_nested_attributes_for :groups_interests
+	accepts_nested_attributes_for :group_events
+
 	acts_as_messageable
 
 	validates :name,    	presence: true, 

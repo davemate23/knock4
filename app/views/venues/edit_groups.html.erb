@@ -1,0 +1,13 @@
+<% provide(:title, 'Add Groups') %>
+
+<% if @venue.groups.present? %>
+	<h2>Current Venue's Groups</h2>
+	<%= render @venue.groups %>
+<% end %>
+
+<h1>Add Groups</h1>
+
+<%= form_for @venue do |f| %>
+    <%= f.select :groups_ids, Group.all_except(@venue.groups).collect {|x| [x.title, x.id]}, {}, :multiple => true %>
+    <%= f.submit %>
+<% end %>

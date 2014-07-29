@@ -10,9 +10,7 @@ class DeviseCreateKnockers < ActiveRecord::Migration
       t.float :latitude                       
       t.float :longitude           
       t.date :birthday,             :null => false
-      t.text :about
       t.string :gender,             :null => false
-      t.string :nationality
       t.boolean :admin,             :default => false
 
 

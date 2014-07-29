@@ -22,5 +22,6 @@ module Knock4
     config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
     I18n.enforce_available_locales = true
     config.assets.paths << "#{Rails}/vendor/assets/fonts"
+    config.paths['app/views'] << "app/views/devise"
   end
 end

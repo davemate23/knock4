@@ -1,13 +1,13 @@
 class KnockersController < ApplicationController
 before_filter :authenticate_knocker!, only: [:index, :show,:edit, :update, :destroy, :favourite_knockers, :favourited_knockers]
  def index
- 	@knockers = Knocker.all_except(current_knocker).paginate(page: params[:page]).order('created_at DESC')
+ 	@knockers = Knocker.all_except(current_knocker).page params[:page]
  end
 
  def show
     @knocker = Knocker.find(params[:id])
-    @hypes = @knocker.hypes.paginate(page: params[:page])
-    @posts = Post.paginate(page: params[:page])
+    @hypes = @knocker.hypes.page(params[:page]).per(40)
+    @posts = Post.page(params[:page]).per(40)
  end
 
  def message_form

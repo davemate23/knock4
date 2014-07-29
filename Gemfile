@@ -23,6 +23,7 @@ gem 'coffee-rails', '~> 4.0.0'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 gem 'jquery-ui-sass-rails'
+gem 'image-picker-rails'
 
 # Allows in place editing
 gem 'best_in_place', github: 'aaronchi/best_in_place'
@@ -87,9 +88,10 @@ gem 'faker'
 # Messaging
 gem 'mailboxer'
 
-# Pagination
-gem 'will_paginate'
-gem 'bootstrap-will_paginate'
+# Pagination & Search
+gem 'kaminari'
+gem 'bootstrap-kaminari-views'
+gem "ransack", github: "activerecord-hackery/ransack", branch: "rails-4"
 
 # Calendar and Availability
 gem 'multi-dates-picker-rails'

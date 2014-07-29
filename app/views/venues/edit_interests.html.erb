@@ -1,0 +1,18 @@
+<% provide(:title, 'Add Interests') %>
+
+<% if @venue.interests.present? %>
+	<h2>Current Venue Interests</h2>
+
+	<%= paginate @interests, :theme => 'twitter-bootstrap-3' %>
+		<%= render partial: "venues/interest", locals: { interest: @venue.interests } %>
+	<%= paginate @interests, :theme => 'twitter-bootstrap-3' %>
+<% end %>
+
+<h1>Add Interests</h1>
+
+<%= form_for @venue do |f| %>
+    <%= f.select :interest_ids, Interest.all_except(@venue.interests).collect {|x| [x.title, x.id]}, {}, :multiple => true %>
+    <%= f.submit %>
+<% end %>
+
+

@@ -1,0 +1,12 @@
+<% @venue.interests.each do |interest| %>
+  <div class="interest_box">
+  	<%= image_tag interest.avatar.url(:thumb) %><br />
+	<%= link_to @interest.title %><br />
+	Hello
+	<%= link_to 'Remove', @venue.interests.delete(@interest) %>
+	<span class="delete">
+
+	  <%= button_to "Remove Association", venue_interest_path(@venue, interest), :confirm => "Are you sure?", :method=>:delete %>
+	</span>
+  </div>
+<% end %>

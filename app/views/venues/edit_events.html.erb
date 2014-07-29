@@ -1,0 +1,13 @@
+<% provide(:title, 'Add Events') %>
+
+<% if @venue.events.present? %>
+	<h2>Current Venue Events</h2>
+	<%= render @venue.events %>
+<% end %>
+
+<h1>Add Events</h1>
+
+<%= form_for @venue do |f| %>
+    <%= f.select :event_ids, Event.all_except(@venue.events).collect {|x| [x.title, x.id]}, {}, :multiple => true %>
+    <%= f.submit %>
+<% end %>

@@ -2,10 +2,18 @@
 
 <h1>All Venues</h1>
 
-<%= will_paginate @venues %>
+<%= search_form_for @q do |f| %>
+  <%= f.label :name_cont %>
+  <%= f.search_field :name_cont %>
+  <%= f.submit %>
+<% end %>
+
+<%= content_tag :th, sort_link(@q, :distance, :name) %>
+
+<%= paginate @venues, :theme => 'twitter-bootstrap-3' %>
 
 <ul class="venues">
 	<%= render @venues %>
 </ul>
 
-<%= will_paginate @venues %>
+<%= paginate @venues, :theme => 'twitter-bootstrap-3' %>
