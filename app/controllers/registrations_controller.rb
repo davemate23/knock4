@@ -1,4 +1,5 @@
 class RegistrationsController < Devise::RegistrationsController
+	# This was an attempt to include an additional step to the registration process, to allow users to enter basic account details on registration, then basic profile details once their account is verified.  Don't think I got very far with it though.
 
   protected
 

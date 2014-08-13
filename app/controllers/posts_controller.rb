@@ -1,4 +1,5 @@
 class PostsController < ApplicationController
+  # Similar to Hypes, but have a target polymorphic attribute, rather than the author. Although, if you can work out how to do a model with a polynomial author and recipient, then it may be better as then Venues, Events and Groups could post as well, rather than just write Hype and comments.
   before_action :authenticate_knocker!, only: [:create, :destroy]
   before_filter :find_postable, except: [:index]
 

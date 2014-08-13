@@ -1,4 +1,5 @@
 class Hype < ActiveRecord::Base
+	# Hype is like a status, where you can write about things you're up to, or advertise to people locally what you want to do.  Hopefully we can also integrate id tags into them as mentions.  They will display (dependent on user settings) in the newsfeeds of knockers within a certain radius of the source.
 	before_create :set_latlong
 
 	belongs_to :author, polymorphic: true
@@ -10,6 +11,7 @@ class Hype < ActiveRecord::Base
 	validates :author_type, presence: true
 
 	def set_latlong
+		# Uses the author's lat and long to give the hype a location for local feeds.
 		self.latitude = author.latitude
 		self.longitude = author.longitude
 	end

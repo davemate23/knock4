@@ -1,4 +1,5 @@
 class MessagesController < ApplicationController
+  # Part of the Mailboxer Gem
  
   # GET /message/new
   def new

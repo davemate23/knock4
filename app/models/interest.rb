@@ -1,4 +1,5 @@
 class Interest < ActiveRecord::Base
+      # Interests are currently very basic and will probably be the model developed the most to begin with, to include things such as widgets which differ per page as we discussed.
 
 	has_many :knockers, through: :knocker_interests
 	has_many :venues, through: :venue_interests
@@ -11,7 +12,8 @@ class Interest < ActiveRecord::Base
       has_attached_file :avatar, :styles => { :medium => "300x300", :thumb => "100x100", :micro => "30x30" }, :default_url => "/images/:style/missing2.png"
       validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
 
-	PAGE_URL1 = "http://en.wikipedia.org/w/index.php?title="
+	# The following code is all related to scraping from Wikipedia using the Nokogiri Gem.  Using the Wikipedia API would be a far better idea, and perhaps your knowledge of PHP could allow this to happen a lot more easily?
+      PAGE_URL1 = "http://en.wikipedia.org/w/index.php?title="
 	PAGE_URL2 = "&printable=yes"
 
 	def self.all_except(interest)

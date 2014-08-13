@@ -1,4 +1,5 @@
 class Venue < ActiveRecord::Base
+  # Columns in table should be self explanatory.
 
 	before_save { self.identity = identity.downcase }
 
@@ -44,6 +45,7 @@ class Venue < ActiveRecord::Base
 		[address1, address2, town, county, postcode, country].compact.join(', ')
 	end
 
+  # Calculates distance between knocker and venue entity.
   def distance
     self.distance_to(current_knocker)
   end

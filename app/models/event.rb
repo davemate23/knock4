@@ -1,4 +1,5 @@
 class Event < ActiveRecord::Base
+	# This should be relatively straightforward.  Hypes as hypeable may now be out of date with Posts, but can't remember!
 	has_many :venues, through: :event_venues
 	has_many :interests, through: :event_interests
 	has_many :event_interests, dependent: :destroy

@@ -1,4 +1,6 @@
 class ConversationsController < ApplicationController
+
+  #This was automatically created, then adjusted through the Mailboxer Gem.  Needs a bit of work to get up and running effectively, although it does work.  Best to read the notes for the Gem, rather than me trying to explain it all.
   before_filter :authenticate_knocker!
   helper_method :mailbox, :conversation
   def index

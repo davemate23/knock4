@@ -1,4 +1,5 @@
 class GroupsController < ApplicationController
+  # Most of this is just copy & pasted from the other model Controllers.  I didn't do much work on Groups.
   before_filter :authenticate_knocker!, except: [:show, :index]
   before_filter :authorize_admin, only: [:edit]
   after_filter :set_admin_for_group, only: [:create]

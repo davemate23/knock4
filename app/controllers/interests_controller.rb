@@ -1,4 +1,5 @@
 class InterestsController < ApplicationController
+	#This should be fairly straight forward.
 
 	def index
 	end
@@ -13,7 +14,7 @@ class InterestsController < ApplicationController
 
 	def create
 		@interest = Interest.create(interest_params)
-		@interest.get_content
+		@interest.get_content # This should implement the method in the model for scraping Wikipedia.
 		 if @interest.save
     		redirect_to root_path
   		else

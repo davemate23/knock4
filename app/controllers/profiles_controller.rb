@@ -1,4 +1,5 @@
 class ProfilesController < ApplicationController
+	# I created this controller, as I found it difficult to disassociate the attributes for knocker accounts and profiles with Devise.  Should allow users to update their profile details without entering their password, etc everytime and means they can change their email, name, etc in a Settings page.
 
 	def new
 		@profile = Profile.new

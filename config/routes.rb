@@ -14,6 +14,7 @@ Knock4::Application.routes.draw do
   get "interests/show"
 
   devise_for :knockers, :controllers => { :omniauth_callbacks => "omniauth_callbacks", :registrations => "registrations" }
+  # Created the following nested resources after getting very confused.  Should hopefully minimise the number of controllers required.
   resources :knockers, :only => [:index] do
     member do
       get :favourite_knockers, :favourited_knockers

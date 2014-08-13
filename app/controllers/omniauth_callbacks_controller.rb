@@ -1,4 +1,5 @@
 class OmniauthCallbacksController < Devise::OmniauthCallbacksController
+  # One of the first things I implemented.  Not sure if this still works, but probably best to leave it until the rest of the site is more complete first.
   def facebook
     # You need to implement the method below in your model (e.g. app/models/user.rb)
     @knocker = Knocker.find_for_facebook_oauth(request.env["omniauth.auth"])

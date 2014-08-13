@@ -1,4 +1,6 @@
 class Knocker < ActiveRecord::Base
+  # Wow, this one might be a big one!..
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -26,24 +28,31 @@ class Knocker < ActiveRecord::Base
     has_attached_file :avatar, :styles => { :medium => "300x300", :thumb => "100x100", :micro => "30x30", :large => "500x500>" }, :default_url => "/images/:style/missing.jpg"
     validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
 
+    # This works with the Geocoder Gem to get locations from user postcodes.
     geocoded_by :address
     after_validation :geocode
 
+    # Works with Kaminari Gem.
     paginates_per 20
 
+    # Collects address attributes together for a more competent search on google... may create complications sometimes though where things don't work as well when combined.
     def address
       [town, postcode, country].compact.join(', ')
     end
 
+    # Attempt to create a feed on knocker profile... see favouriteknocker conttoller for more info.
     def feed
       Hype.from_knockers_favourited_by(self)
     end
 
+    # Think I created this for the Knockers index page to display all Knockers except current_knocker.
     def self.all_except(knocker)
       where.not(id: knocker)
     end
 
-  	def self.find_for_facebook_oauth(auth)
+  	
+    # The following code is all related to Omni Auth, as with the controller, probably best to leave this for now until the site is more ready for launch.
+    def self.find_for_facebook_oauth(auth)
 	  	where(auth.slice(:provider, :uid)).first_or_create do |knocker|
 	      knocker.provider = auth.provider
 	      knocker.uid = auth.uid
@@ -105,7 +114,9 @@ class Knocker < ActiveRecord::Base
     	end
  	end
 
- 	def name
+ 	# method to get the full name from first and last attributes
+
+  def name
  		first_name + " " + last_name
  	end
 
@@ -113,14 +124,17 @@ class Knocker < ActiveRecord::Base
     return email
   end
 
+  # Checks whether the knocker instance is a favourite of current_knocker to see if there should be an option to Favourite or Unfavourite in view.
   def favourited?(other_knocker)
     favouriteknockers.find_by(favourite_id: other_knocker.id)
   end
 
+  # Allows a knocker to favourite another knocker (not sure if this works).
   def favourite!(other_knocker)
     favouriteknockers.create!(favourite_id: other_knocker.id)
   end
 
+  # Allows a knocker to unfavourite another knocker (not sure if this works).
   def unfavourite!(other_knocker)
     favouriteknockers.find_by(favourite_id: other_knocker.id).destroy
   end
@@ -130,10 +144,10 @@ class Knocker < ActiveRecord::Base
   has_many :posts, as: :postable, dependent: :destroy
   accepts_nested_attributes_for :hypes
   has_many :favourite_knockers, through: :favouriteknockers, source: :favourite
-  has_many :favouriteknockers, foreign_key: "favourited_id", dependent: :destroy
+  has_many :favouriteknockers, foreign_key: "favourited_id", dependent: :destroy # This is probably why I messed this all up!
   has_many :reverse_favouriteknockers, foreign_key: "favourite_id",
                                         class_name: "Favouriteknocker",
-                                        dependent: :destroy
+                                        dependent: :destroy # Allows for a two way relationship (favourite and favourited)
   has_many :favourited_knockers, through: :reverse_favouriteknockers, source: :favourited
   has_many :interests, through: :knocker_interests
   has_many :venues, through: :knocker_venues

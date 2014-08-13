@@ -1,4 +1,5 @@
 class Post < ActiveRecord::Base
+  # Similar to Hype.  Although not necessary, I kept the lat and long in, just in case it's useful in the future.
   before_create :set_latlong
   belongs_to :postable, polymorphic: true
   belongs_to :knocker

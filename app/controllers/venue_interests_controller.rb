@@ -1,4 +1,5 @@
 class VenueInterestsController < ApplicationController
+	# I don't think this is needed now that I have changed the Routes (you should be able to use the parent model's controller), but it may be worth keeping it for the time being just in case.
 
 	def index
 		@venue = Venue.find_by_id(params[:venue_id])

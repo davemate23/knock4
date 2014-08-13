@@ -1,4 +1,6 @@
 class FavouriteknockersController < ApplicationController
+	# I seriously messed this bit up, and was going to get back to it later but unfortunately never got around to it!
+	# Following the Michael Hartl Twitter-Style tutorial, I confused myself with the naming convention, therefore it may be worth starting from scratch on the Follower/Following part!
 	before_action :authenticate_knocker!
 
 	def create

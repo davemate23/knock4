@@ -1,4 +1,5 @@
 class StaticPagesController < ApplicationController
+  # Basic controller for any non-dynamic pages.
   def home
   	if signed_in?
   		@hype = current_knocker.hypes.build

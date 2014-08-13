@@ -1,4 +1,5 @@
 module HypesHelper
+  # I believe this allows a Hype to have wrapped text.
 
   def wrap(content)
     sanitize(raw(content.split.map{ |s| wrap_long_string(s) }.join(' ')))

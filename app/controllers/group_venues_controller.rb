@@ -1,4 +1,5 @@
 class GroupVenuesController < ApplicationController
+	# I don't think these join table controllers are actually required now that I have changed the Routes (see VenueController for more useful notes).
 	before_filter :authenticate_knocker!, only: [:new, :edit, :create, :update, :destroy]
 	before_filter :authorize_venue || :authorize_group
 
